@@ -11,7 +11,7 @@ module.exports.loop = () => {
             console.log(`${name} died. Memory cleared.`);
         }
     }
- 
+
     // Starting creep setup for new rooms under RCL 3
     if (RCL < 3) {
         roomStartup;

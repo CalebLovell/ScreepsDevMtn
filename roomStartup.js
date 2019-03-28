@@ -9,8 +9,9 @@ function namer(role) {
 }
 
 // Setting number of max noob creeps
-let numberOfHarvesters = _.sum(Game.creeps, (c) => c.memory.role == 'harvester'); // turn into reduce functions
+let numberOfHarvesters = _.sum(Game.creeps, (c) => c.memory.role == 'harvester'); // turn into .reduce functions
 let numberOfUpgraders = _.sum(Game.creeps, (c) => c.memory.role == 'upgrader');
+let numberOfBuilders = _.sum(Game.creeps, (c) => c.memory.role == 'builder');
 
 // Controlling noob creeps
 for (let name in Game.creeps) {
@@ -51,3 +52,5 @@ if (numberOfHarvesters < 8) {
         });
 }
 
+// Console log the number of each noob creep
+console.log(`Harv: ${numberOfHarvesters} Upgrad: ${numberOfUpgraders} Builder: ${numberOfBuilders}`)
