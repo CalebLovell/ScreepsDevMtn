@@ -1,5 +1,15 @@
 module.exports = {
-  run: function(creep) {
+  run: function (creep) {
+    // Variables
+    const HAVE_LOAD = creep.memory.HAVE_LOAD;
+    let source = creep.pos.findClosestByPath(FIND_SOURCES);
+    let structuresFill = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
+      filter: (s) => (
+        s.structureType == STRUCTURE_EXTENSION ||
+        s.structureType == STRUCTURE_SPAWN ||
+        s.structureType == STRUCTURE_TOWER)
+        && s.energy < s.energyCapacity
+    });
     // State Switching & Say Action
     if (creep.memory.HAVE_LOAD == false && creep.carry.energy == creep.carryCapacity) {
       creep.memory.HAVE_LOAD = true;
@@ -9,23 +19,12 @@ module.exports = {
       creep.memory.HAVE_LOAD = false;
       creep.say('\u{26CF}'); // pick emojii unicode
     }
-    // Variables
-    var HAVE_LOAD = creep.memory.HAVE_LOAD;
-    var constructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
-    var source = creep.pos.findClosestByPath(FIND_SOURCES);
-    var structuresFill = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-      filter: (s) => (s.structureType == STRUCTURE_EXTENSION ||
-          s.structureType == STRUCTURE_SPAWN ||
-          s.structureType == STRUCTURE_TOWER) &&
-          s.energy < s.energyCapacity
-    });
-    var controller = creep.room.controller
-    // Step 1: Creep does not HAVE_LOAD, is at source -> Harvest it
+    // State 1: Creep does not HAVE_LOAD, is at source -> Harvest it
     if (!HAVE_LOAD && null != source && creep.pos.isNearTo(source)) {
       creep.harvest(source);
       return OK;
     }
-    // Step 2: Creep does not HAVE_LOAD, not at source -> Move to closest one
+    // State 2: Creep does not HAVE_LOAD, not at source -> Move to closest one
     if (!HAVE_LOAD && null != source && !creep.pos.isNearTo(source)) {
       creep.moveTo(source, {
         visualizePathStyle: {
@@ -34,8 +33,7 @@ module.exports = {
       });
       return OK;
     }
-    // Step 3: Creep does HAVE_LOAD, not at structuresFill -> Move to structuresFill
-    // Creep move to structuresFill if not full of energy
+    // State 3: Creep does HAVE_LOAD, not at unfilled structure -> Move to unfilled structure
     if (HAVE_LOAD && null != structuresFill && !creep.pos.isNearTo(structuresFill)) {
       creep.moveTo(structuresFill, {
         visualizePathStyle: {
@@ -44,24 +42,9 @@ module.exports = {
       });
       return OK;
     }
-    // Fill structuresFill
+    // State 4: Creep does HAVE_LOAD, is at unfilled structure -> Transfer energy to unfilled structure
     if (HAVE_LOAD && null != structuresFill && creep.pos.isNearTo(structuresFill)) {
       creep.transfer(structuresFill, RESOURCE_ENERGY);
-      return OK;
-    }
-    // Step 4: Creep does HAVE_LOAD, but structures are filled -> Move to controller
-    // Creep move to structuresFill if not full of energy
-    if (HAVE_LOAD && null != constructionSite && !creep.pos.inRangeTo(constructionSite, 3)) {
-      creep.moveTo(constructionSite, {
-        visualizePathStyle: {
-          stroke: '#ffaa00'
-        }
-      });
-      return OK;
-    }
-    // Upgrade controller
-    if (HAVE_LOAD && null != constructionSite && creep.pos.inRangeTo(constructionSite, 3)) {
-      creep.repair(constructionSite);
       return OK;
     }
   }

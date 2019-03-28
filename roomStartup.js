@@ -26,7 +26,7 @@ for (let name in Game.creeps) {
 
 // Game.spawn the noob creeps
 if (numberOfHarvesters < 8) {
-    Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], namer('harvester'),
+    Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], namer('Harvester'),
         {
             memory: {
                 role: 'harvester',
@@ -34,7 +34,7 @@ if (numberOfHarvesters < 8) {
             }
         });
 } else if (numberOfUpgraders < 5) {
-    Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], namer('upgrader'),
+    Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], namer('Upgrader'),
         {
             memory: {
                 role: 'upgrader',
@@ -42,7 +42,7 @@ if (numberOfHarvesters < 8) {
             }
         });
 } else {
-    Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE], namer('builder'),
+    Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE], namer('Builder'),
         {
             memory: {
                 role: 'builder',
