@@ -18,7 +18,6 @@ module.exports = {
         && s.energy > 0
     });
     let controller = creep.room.controller
-    console.log(filledStructure)
     // State 1: Creep does not HAVE_LOAD, is not at filled structure -> Move to it
     if (!HAVE_LOAD && filledStructure != null && !creep.pos.isNearTo(filledStructure)) {
       creep.moveTo(filledStructure, {
