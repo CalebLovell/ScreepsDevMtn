@@ -13,7 +13,7 @@ module.exports.loop = () => {
     }
 
     // Starting creep setup for new rooms under RCL 3
-    if (RCL < 3) {
+    if (RCL < 6) {
         // Importing roles
         const roleHarvester = require('./role.harvester')
         const roleUpgrader = require('./role.upgrader')
@@ -43,7 +43,7 @@ module.exports.loop = () => {
 
         // Game.spawn the noob creeps
         if (numberOfHarvesters < 8) {
-            Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], namer('Harvester'),
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE], namer('Harvester'),
                 {
                     memory: {
                         role: 'harvester',
@@ -58,7 +58,7 @@ module.exports.loop = () => {
                         HAVE_LOAD: false,
                     }
                 });
-        } else {
+        } else if (numberOfBuilders < 1){
             Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE], namer('Builder'),
                 {
                     memory: {
