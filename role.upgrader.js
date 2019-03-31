@@ -15,7 +15,7 @@ module.exports = {
       filter: (s) => (
         s.structureType == STRUCTURE_SPAWN ||
         s.structureType == STRUCTURE_EXTENSION)
-        && s.energy > 0
+        && s.energy > 10
     });
     let controller = creep.room.controller
     // State 1: Creep does not HAVE_LOAD, is not at filled structure -> Move to it
